@@ -1,14 +1,23 @@
 {
-  "name": "my-project",
-  "version": "0.1.0",
+  "name": "Photos-You-Like-Web",
+  "version": "1.0.0",
+  "description": "A Web App for Storing & Viewing Your Favorite Photographs",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "alertify.js": "^1.0.12",
+    "axios": "^0.17.1",
+    "bulma": "^0.6.2",
+    "chunk": "0.0.2",
+    "v-img": "^0.2.0",
     "vue": "^2.5.13",
+    "vue-axios": "^2.0.2",
+    "vue-input-tag": "^1.0.2",
     "vue-router": "^3.0.1",
+    "vue-select": "^2.4.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

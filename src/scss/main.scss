@@ -1,0 +1,79 @@
+.art-box {
+    border: 0.1em solid #e5e5e5;
+    .art-title {
+        text-align: center;
+        padding: 0.7em;
+    }
+    .art-by {
+        text-align: center;
+        padding: 0.3em;
+    }
+}
+
+.small-top-margin {
+    margin-top: 0.5em;
+}
+
+.small-right-margin {
+    margin-right: 0.5em;
+}
+
+.inherit-color {
+    color: inherit;
+}
+
+.image-holder {
+    display: inline-block;
+    position: relative;
+}
+
+.image-holder button {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.image-holder:hover button {
+    display: inline-block;
+}
+
+.center-table {
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+    td {
+        text-align: center;
+        vertical-align: middle;
+    }
+}
+
+// bulma overrides
+
+table {
+    width: 100%;
+}
+
+.modal-background { // a lighter modal background
+    background-color: rgba(black, 0.50)
+}
+
+.control {
+    width: 100%;
+}
+
+// other overrides
+
+.header-v-img {
+    background-color: rgba(0,0,0,0.19) !important;
+}
+
+.v-select .dropdown-toggle .clear {  // disable clear button until https://github.com/sagalbot/vue-select/issues/463 is closed
+    visibility: hidden;
+}
+
+.alertify {
+    z-index: 31; // because bulma decided to pick 30 for nav is-fixed-top
+}

@@ -1,0 +1,49 @@
+<template>
+    <div>
+        <div class="columns" v-for="photos in chunkedPhotos">
+            <div class="column is-one-quarter" v-for="photo in photos">
+                <div class="art-box">
+                    <router-link :to="'/photo/' + photo.id">
+                        <div class="art-title">{{ photo.title }}</div>
+                    </router-link>
+                    <img v-img:gallery="{ title: photo.title }" v-for="image in photo.images" :src="axios.defaults.baseURL + '/images/' + image" class="is-block">
+                    <div class="art-by">
+                        <h3 class="subtitle">by <router-link :to="'/photographer/' + photo.photographer.id + '/all'">{{ photo.photographer.name }}</router-link> [<a :href="photo.photographer.links[0]">Web</a>]</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="notWaiting && photos.length == 0">
+            No photos found
+        </div>
+    </div>
+</template>
+
+<script>
+import chunk from 'chunk'
+
+export default {
+    name: 'Gallery',
+    props: {
+        photos: Array
+    },
+    data() {
+        return {
+            notWaiting: false
+        }
+    },
+    created() {
+        setTimeout(this.updateNotWaiting, 1000)
+    },
+    methods: {
+        updateNotWaiting() {
+            this.notWaiting = true
+        }
+    },
+    computed: {
+        chunkedPhotos() {
+            return chunk(this.photos, 4)
+        }
+    }
+}
+</script>
