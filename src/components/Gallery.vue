@@ -6,7 +6,7 @@
                     <router-link :to="'/photo/' + photo.id">
                         <div class="art-title">{{ photo.title }}</div>
                     </router-link>
-                    <img v-img:gallery="{ title: photo.title }" v-for="image in photo.images" :src="axios.defaults.baseURL + '/images/' + image" class="is-block">
+                    <img v-img:gallery="{ title: photo.title, src: generateImageURL(image) }" v-for="image in photo.images" v-lazy="generateImageURL(image)" class="is-block">
                     <div class="art-by">
                         <h3 class="subtitle">by <router-link :to="'/photographer/' + photo.photographer.id + '/all'">{{ photo.photographer.name }}</router-link> [<a :href="photo.photographer.links[0]">Web</a>]</h3>
                     </div>
@@ -38,6 +38,9 @@ export default {
     methods: {
         updateNotWaiting() {
             this.notWaiting = true
+        },
+        generateImageURL(image) {
+            return this.axios.defaults.baseURL + '/images/' + image
         }
     },
     computed: {
