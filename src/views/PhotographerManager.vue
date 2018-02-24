@@ -26,12 +26,12 @@
                             </router-link>
                         </td>
                         <td>
-                            <a v-for="link in photographer.links" :href="link">{{ link }}</a>
+                            <a v-for="link in photographer.links" :href="link" class="is-block">{{ link }}</a>
                         </td>
                         <td>{{ photographer.count }}</td>
                         <td>{{ photographer.created_at }}</td>
                         <td>{{ photographer.updated_at }}</td>
-                        <td v-if="authenticatedUser"><button class="button is-outlined">Edit</button></td>
+                        <td v-if="authenticatedUser"><button class="button is-outlined" @click="editPhotographer(photographer, index, $event)">Edit</button></td>
                         <td v-if="authenticatedUser"><button class="button is-danger is-outlined" @click="deletePhotographer(photographer.id, index, $event)">Delete</button></td>
                     </tr>
                 </tbody>
@@ -58,6 +58,28 @@
                 </div>
                 <button class="modal-close is-large" aria-label="close" @click="addPhotographerBool = false"></button>
             </div>
+            <div class="modal" v-bind:class="{ 'is-active': editPhotographerBool }">
+                <div class="modal-background" @click="editPhotographerBool = false"></div>
+                <div class="modal-content">
+                    <section class="modal-card-body">
+                        <label class="label">Photographer name</label>
+                        <input type="text" class="input" v-model="photographer.name">
+                        <label class="label">Photographer website</label>
+                        <div v-for="(link, index) in photographer.links" class="field has-addons" v-bind:class="[index > 0 ? 'small-top-margin' : '']">
+                            <div class="control is-fullwidth">
+                                <input type="text" class="input" v-model="photographer.links[index]">
+                            </div>
+                            <button v-if="index > 0" @click="removeLinkInput(index)" class="button">x</button>
+                        </div>
+                        <button class="button small-top-margin" @click="addAnotherLinkInput">Add another link</button>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button" @click="updatePhotographer">Update Photographer</button>
+                        <button class="button" @click="editPhotographerBool = false">Cancel</button>
+                    </footer>
+                </div>
+                <button class="modal-close is-large" aria-label="close" @click="editPhotographerBool = false"></button>
+            </div>
         </div>
     </section>
 </template>
@@ -70,6 +92,7 @@ export default {
         return {
             photographers: [],
             addPhotographerBool: false,
+            editPhotographerBool: false,
             photographer: {
                 name: '',
                 links: ['']
@@ -103,9 +126,31 @@ export default {
                 if(response.data.success) {
                     this.photographers.push(response.data.photographer)
                     this.addPhotographerBool = false
-                    // reset photographer object
-                    this.photographer.name = ''
-                    this.photographer.links = ''
+                    this.resetPhotographerObject()
+                } else {
+                    console.log(response.data.error)
+                }
+            })
+        },
+        editPhotographer(photographer, index, event) {
+            this.photographer.index = index
+            this.photographer.editButton = event.target
+            this.photographer.id = photographer.id
+            this.photographer.name = photographer.name
+            this.photographer.links = photographer.links.slice(0) // https://davidwalsh.name/javascript-clone-array
+            this.editPhotographerBool = true
+        },
+        updatePhotographer() {
+            this.axios.patch(`/photographer/${this.photographer.id}`, {
+                name: this.photographer.name,
+                links: JSON.stringify(this.photographer.links)
+            }, this.$store.state.axiosConfig).then(response => {
+                if(response.data.success) {
+                    this.photographers[this.photographer.index]['name'] = this.photographer.name
+                    this.photographers[this.photographer.index]['links'] = this.photographer.links.slice(0)
+                    this.photographers[this.photographer.index]['updated_at'] = response.data.updatedAt
+                    this.editPhotographerBool = false
+                    this.resetPhotographerObject()
                 } else {
                     console.log(response.data.error)
                 }
@@ -129,6 +174,15 @@ export default {
                     }
                 })
             })
+        },
+        resetPhotographerObject() {
+            if(this.photographer.id) { // means the object was just in editing
+                delete this.photographer.id
+                delete this.photographer.index
+                delete this.photographer.editButton
+            }
+            this.photographer.name = ''
+            this.photographer.links = ['']
         }
     },
     computed: {
