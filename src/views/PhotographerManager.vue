@@ -164,6 +164,7 @@ export default {
                         this.axios.delete(`/photographer/${id}`, this.$store.state.axiosConfig).then(response => {
                             if(response.data.success) {
                                 this.photographers.splice(index, 1)
+                                event.target.classList.remove('is-loading')
                                 this.alertify.success('Photographer deleted')
                             } else {
                                 this.alertify.error(response.data.error)
