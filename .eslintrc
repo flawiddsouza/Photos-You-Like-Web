@@ -13,12 +13,10 @@
     "rules": {
         "indent": [
             "error",
-            4
+            4,
+            { "SwitchCase": 1 }
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        "linebreak-style": 0, // Got so many errors for mixed LF & CRLF, so just disabled it
         "quotes": [
             "error",
             "single",
@@ -27,6 +25,12 @@
         "semi": [
             "error",
             "never"
+        ],
+        "no-empty": [
+            "error",
+            {
+                "allowEmptyCatch": true
+            }
         ]
     }
 }

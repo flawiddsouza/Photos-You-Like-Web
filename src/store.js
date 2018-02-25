@@ -15,12 +15,12 @@ export default new Vuex.Store({
     },
     mutations: {
         updateAuthenticatedUser: (state, authenticatedUser) => {
-                state.authenticatedUser = authenticatedUser
-                localStorage.setItem('user', JSON.stringify(authenticatedUser))
+            state.authenticatedUser = authenticatedUser
+            localStorage.setItem('user', JSON.stringify(authenticatedUser))
         },
         updateAuthToken: (state, authToken) => {
-                state.authToken = authToken
-                localStorage.setItem('authToken', authToken)
+            state.authToken = authToken
+            localStorage.setItem('authToken', authToken)
         }
     }
 })

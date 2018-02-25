@@ -128,7 +128,7 @@ export default {
                     this.addPhotographerBool = false
                     this.resetPhotographerObject()
                 } else {
-                    console.log(response.data.error)
+                    this.alertify.error(response.data.error)
                 }
             })
         },
@@ -152,13 +152,13 @@ export default {
                     this.editPhotographerBool = false
                     this.resetPhotographerObject()
                 } else {
-                    console.log(response.data.error)
+                    this.alertify.error(response.data.error)
                 }
             })
         },
         deletePhotographer(id, index, event) {
             this.alertify.confirm('Deleting a photographer will also delete all photos assosicated to them. This action is irreversible! Are you sure?', () => {
-                this.alertify.prompt('Type yes to confirm', (value, e) => {
+                this.alertify.prompt('Type yes to confirm', value => {
                     if(value === 'yes') {
                         event.target.classList.add('is-loading')
                         this.axios.delete(`/photographer/${id}`, this.$store.state.axiosConfig).then(response => {
@@ -166,11 +166,11 @@ export default {
                                 this.photographers.splice(index, 1)
                                 this.alertify.success('Photographer deleted')
                             } else {
-                                console.log(response.data.error)
+                                this.alertify.error(response.data.error)
                             }
                         })
                     } else {
-                        this.alertify.error("You've didn't type yes, so we've cancelled the delete request")
+                        this.alertify.error(`You didn't type yes, so we've cancelled the delete request`)
                     }
                 })
             })

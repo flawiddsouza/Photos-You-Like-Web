@@ -235,7 +235,7 @@ export default {
             })
         },
         deletePhoto() {
-            this.alertify.confirm("Are you sure?", () => {
+            this.alertify.confirm('Are you sure?', () => {
                 this.axios.delete(`/photo/${this.photo.id}`, this.$store.state.axiosConfig).then(response => {
                     if(response.data.success) {
                         this.alertify.success('Photo deleted')
@@ -245,7 +245,7 @@ export default {
             })
         },
         deleteImage(image) {
-            this.alertify.confirm("Are you sure?", () => {
+            this.alertify.confirm('Are you sure?', () => {
                 this.axios.patch(`/photo/${this.photo.id}/image/delete`, { image: image }, this.$store.state.axiosConfig).then(response => {
                     if(response.data.success) {
                         this.photo.images = this.photo.images.filter(photoImage => photoImage !== image)
