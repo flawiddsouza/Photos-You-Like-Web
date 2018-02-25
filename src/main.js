@@ -7,7 +7,7 @@ import 'bulma'
 import './scss/main.scss'
 
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:9883'
+axios.defaults.baseURL = process.env.API_URL
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 

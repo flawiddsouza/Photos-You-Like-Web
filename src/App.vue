@@ -29,8 +29,8 @@
 export default {
     data() {
         return {
-            clientId: '335364894876-qri5ur14esi56hbap88vm7auf0apq2hl.apps.googleusercontent.com',
-            redirectUri: 'http://localhost:8080/auth/callback'
+            clientId: process.env.CLIENT_ID,
+            redirectUri: process.env.HOSTED_AT_URL + '/auth/callback'
         }
     },
     methods: {

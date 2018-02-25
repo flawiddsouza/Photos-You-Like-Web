@@ -1,3 +1,12 @@
+require('dotenv').config()
+
+const Dotenv = require('dotenv-webpack')
+
 module.exports = {
-    baseUrl: '/'
+    configureWebpack: {
+        plugins: [
+            new Dotenv()
+        ]
+    },
+    baseUrl: process.env.BASE_URL
 }
