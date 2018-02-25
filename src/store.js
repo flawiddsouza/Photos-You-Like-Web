@@ -21,6 +21,13 @@ export default new Vuex.Store({
         updateAuthToken: (state, authToken) => {
             state.authToken = authToken
             localStorage.setItem('authToken', authToken)
+        },
+        refreshAxiosConfig: (state) => {
+            state.axiosConfig = {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
+                }
+            }
         }
     }
 })
