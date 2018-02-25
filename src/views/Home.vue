@@ -30,12 +30,7 @@ export default {
     },
     methods: {
         fetchPhotos() {
-            var config = {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authToken')
-                }
-            }
-            this.axios.get('/user/photo/all', config).then(response => {
+            this.axios.get('/user/photo/all', this.$store.state.axiosConfig).then(response => {
                 if(response.data.success) {
                     this.photos = response.data.photos
                 } else {
