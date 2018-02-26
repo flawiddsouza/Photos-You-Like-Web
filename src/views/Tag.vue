@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <div class="container">
-            <ScopeSwitcher></ScopeSwitcher>
+            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
             <h1 class="title">All Photos tagged "{{ $route.params.tag }}"</h1>
             <Gallery :photos="photos" />
         </div>
@@ -43,6 +43,9 @@ export default {
         }
     },
     computed: {
+        authenticatedUser() {
+            return this.$store.state.authenticatedUser
+        },
         scope() {
             return this.$store.state.scope
         }

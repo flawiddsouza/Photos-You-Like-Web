@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <div class="container">
-            <ScopeSwitcher></ScopeSwitcher>
+            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
             <h1 class="title">All Photos from {{ photographer.name }}</h1>
             <Gallery :photos="photos" />
         </div>
@@ -30,7 +30,9 @@ export default {
         '$route': 'fetchPhotos',
         scope: function(newScope, oldScope) {
             if(newScope !== oldScope) {
-                this.$router.push(`/photographer/${this.$route.params.id}/all/user`)
+                if(this.scope === 'user') {
+                    this.$router.push(`/photographer/${this.$route.params.id}/all/user`)
+                }
             }
         }
     },
@@ -48,6 +50,9 @@ export default {
         }
     },
     computed: {
+        authenticatedUser() {
+            return this.$store.state.authenticatedUser
+        },
         scope() {
             return this.$store.state.scope
         }

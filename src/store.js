@@ -12,7 +12,7 @@ export default new Vuex.Store({
                 'Authorization': 'Bearer ' + localStorage.getItem('authToken')
             }
         },
-        scope: 'user'
+        scope: 'all'
     },
     mutations: {
         updateAuthenticatedUser: (state, authenticatedUser) => {

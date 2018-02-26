@@ -1,6 +1,7 @@
 <template>
     <section class="section">
         <div class="container">
+            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
             <h1 class="title">Photographer Manager</h1>
             <button class="button is-medium block" @click="addPhotographerBool = true" v-if="authenticatedUser">Add New Photographer</button>
             <br v-if="authenticatedUser">
@@ -21,7 +22,7 @@
                     <tr v-for="(photographer, index) in photographers">
                         <td>{{ photographer.id }}</td>
                         <td>
-                            <router-link :to="'/photographer/' + photographer.id + '/all'">
+                            <router-link :to="generatePhotographerRouterLink(photographer.id)">
                                 {{ photographer.name }}
                             </router-link>
                         </td>
@@ -85,9 +86,14 @@
 </template>
 
 <script>
+import ScopeSwitcher from '@/components/ScopeSwitcher.vue'
+
 var currentInstance = null
 
 export default {
+    components: {
+        ScopeSwitcher
+    },
     data() {
         return {
             photographers: [],
@@ -101,7 +107,22 @@ export default {
     },
     created() {
         currentInstance = this
-        this.fetchPhotographers()
+        if(this.authenticatedUser && this.scope === 'user') {
+            this.fetchPhotographersUser()
+        } else {
+            this.fetchPhotographers()
+        }
+    },
+    watch: {
+        scope: function(newScope, oldScope) {
+            if(newScope !== oldScope) {
+                if(this.scope === 'all') {
+                    this.fetchPhotographers()
+                } else if(this.scope === 'user') {
+                    this.fetchPhotographersUser()
+                }
+            }
+        }
     },
     destroyed() {
         currentInstance = null
@@ -109,6 +130,11 @@ export default {
     methods: {
         fetchPhotographers() {
             this.axios.get('/photographer/all/with/count').then(response => {
+                this.photographers = response.data
+            })
+        },
+        fetchPhotographersUser() {
+            this.axios.get('/photographer/all/with/count/user', this.$store.state.axiosConfig).then(response => {
                 this.photographers = response.data
             })
         },
@@ -184,11 +210,21 @@ export default {
             }
             this.photographer.name = ''
             this.photographer.links = ['']
+        },
+        generatePhotographerRouterLink(photographerId) {
+            if(this.scope == 'all') {
+                return '/photographer/' + photographerId + '/all'
+            } else if(this.scope == 'user') {
+                return '/photographer/' + photographerId + '/all/user'
+            }
         }
     },
     computed: {
         authenticatedUser() {
             return this.$store.state.authenticatedUser
+        },
+        scope() {
+            return this.$store.state.scope
         }
     }
 }
