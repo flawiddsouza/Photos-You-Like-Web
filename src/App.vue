@@ -47,6 +47,7 @@ export default {
                                 this.$store.commit('updateAuthenticatedUser', response.data.user)
                                 this.$store.commit('updateAuthToken', response.data.token)
                                 this.$store.commit('refreshAxiosConfig')
+                                this.$router.go() // reload current route, whichever it is
                             } else {
                                 console.log('Server error', response.data.error)
                             }
