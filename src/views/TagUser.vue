@@ -1,8 +1,8 @@
 <template>
     <section class="section">
         <div class="container">
-            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
-            <h1 class="title">All Photos</h1>
+            <ScopeSwitcher></ScopeSwitcher>
+            <h1 class="title">Photos tagged "{{ $route.params.tag }}"</h1>
             <Gallery :photos="photos" />
         </div>
     </section>
@@ -23,29 +23,26 @@ export default {
         }
     },
     created() {
-        this.$store.commit('setScopeToAll')
         this.fetchPhotos()
     },
     watch: {
         scope: function(newScope, oldScope) {
             if(newScope !== oldScope) {
-                if(newScope === 'user') {
-                    this.$router.push('/')
-                }
+                this.$router.push(`/tag/${this.$route.params.tag}`)
             }
         }
     },
     methods: {
         fetchPhotos() {
-            this.axios.get('/photo/all').then(response => {
-                this.photos = response.data
+            this.axios.get(`/tag/${this.$route.params.tag}/user`, this.$store.state.axiosConfig).then(response => {
+                if(response.data.success) {
+                    this.photos = response.data.photos
+                    document.title = this.$route.params.tag + ' - ' + document.title
+                }
             })
         }
     },
     computed: {
-        authenticatedUser() {
-            return this.$store.state.authenticatedUser
-        },
         scope() {
             return this.$store.state.scope
         }

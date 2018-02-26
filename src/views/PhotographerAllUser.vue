@@ -1,8 +1,8 @@
 <template>
     <section class="section">
         <div class="container">
-            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
-            <h1 class="title">All Photos</h1>
+            <ScopeSwitcher></ScopeSwitcher>
+            <h1 class="title">Photos from {{ photographer.name }}</h1>
             <Gallery :photos="photos" />
         </div>
     </section>
@@ -19,33 +19,35 @@ export default {
     },
     data() {
         return {
-            photos: []
+            photos: [],
+            photographer: {}
         }
     },
     created() {
-        this.$store.commit('setScopeToAll')
         this.fetchPhotos()
     },
     watch: {
+        '$route': 'fetchPhotos',
         scope: function(newScope, oldScope) {
             if(newScope !== oldScope) {
-                if(newScope === 'user') {
-                    this.$router.push('/')
-                }
+                this.$router.push(`/photographer/${this.$route.params.id}/all`)
             }
         }
     },
     methods: {
         fetchPhotos() {
-            this.axios.get('/photo/all').then(response => {
-                this.photos = response.data
+            this.axios.get(`/photographer/${this.$route.params.id}/all/user`, this.$store.state.axiosConfig).then(response => {
+                if(response.data.success) {
+                    this.photos = response.data.photos
+                    this.photographer = response.data.photographer
+                    document.title = this.photographer.name + ' - ' + document.title
+                } else {
+                    this.$router.push({ path: `/` })
+                }
             })
         }
     },
     computed: {
-        authenticatedUser() {
-            return this.$store.state.authenticatedUser
-        },
         scope() {
             return this.$store.state.scope
         }

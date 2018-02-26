@@ -1,6 +1,7 @@
 <template>
     <section class="section">
         <div class="container">
+            <ScopeSwitcher></ScopeSwitcher>
             <h1 class="title">All Photos tagged "{{ $route.params.tag }}"</h1>
             <Gallery :photos="photos" />
         </div>
@@ -8,10 +9,12 @@
 </template>
 
 <script>
+import ScopeSwitcher from '@/components/ScopeSwitcher.vue'
 import Gallery from '@/components/Gallery.vue'
 
 export default {
     components: {
+        ScopeSwitcher,
         Gallery
     },
     data() {
@@ -22,13 +25,26 @@ export default {
     created() {
         this.fetchPhotos()
     },
+    watch: {
+        scope: function(newScope, oldScope) {
+            if(newScope !== oldScope) {
+                this.$router.push(`/tag/${this.$route.params.tag}/user`)
+            }
+        }
+    },
     methods: {
         fetchPhotos() {
             this.axios.get(`/tag/${this.$route.params.tag}`).then(response => {
                 if(response.data.success) {
                     this.photos = response.data.photos
+                    document.title = this.$route.params.tag + ' - ' + document.title
                 }
             })
+        }
+    },
+    computed: {
+        scope() {
+            return this.$store.state.scope
         }
     }
 }

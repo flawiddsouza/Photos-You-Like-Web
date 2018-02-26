@@ -8,7 +8,7 @@
                     </router-link>
                     <img v-img:gallery="{ title: photo.title, src: generateImageURL(image) }" v-for="image in photo.images" v-lazy="generateThumbnailImageURL(image)" class="is-block">
                     <div class="art-by">
-                        <h3 class="subtitle">by <router-link :to="'/photographer/' + photo.photographer.id + '/all'">{{ photo.photographer.name }}</router-link> [<a :href="photo.photographer.links[0]">Web</a>]</h3>
+                        <h3 class="subtitle">by <router-link :to="generatePhotographerRouterLink(photo.photographer.id)">{{ photo.photographer.name }}</router-link> [<a :href="photo.photographer.links[0]">Web</a>]</h3>
                     </div>
                 </div>
             </div>
@@ -44,11 +44,21 @@ export default {
         },
         generateThumbnailImageURL(image) {
             return this.axios.defaults.baseURL + '/images/thumbnails/' + image
+        },
+        generatePhotographerRouterLink(photographerId) {
+            if(this.scope == 'all') {
+                return '/photographer/' + photographerId + '/all'
+            } else if(this.scope == 'user') {
+                return '/photographer/' + photographerId + '/all/user'
+            }
         }
     },
     computed: {
         chunkedPhotos() {
             return chunk(this.photos, 4)
+        },
+        scope() {
+            return this.$store.state.scope
         }
     }
 }

@@ -5,7 +5,9 @@ import PhotoAdd from './views/PhotoAdd.vue'
 import PhotoAll from './views/PhotoAll.vue'
 import Photo from './views/Photo.vue'
 import PhotographerAll from './views/PhotographerAll.vue'
+import PhotographerAllUser from './views/PhotographerAllUser.vue'
 import Tag from './views/Tag.vue'
+import TagUser from './views/TagUser.vue'
 import PhotographerManager from './views/PhotographerManager.vue'
 
 Vue.use(Router)
@@ -48,8 +50,25 @@ export default new Router({
             }
         },
         {
+            path: '/photographer/:id/all/user',
+            component: PhotographerAllUser,
+            meta: {
+                title: 'Your Photos'
+            }
+        },
+        {
             path: '/tag/:tag',
-            component: Tag
+            component: Tag,
+            meta: {
+                title: 'All Photos'
+            }
+        },
+        {
+            path: '/tag/:tag/user',
+            component: TagUser,
+            meta: {
+                title: 'Your Photos'
+            }
         },
         {
             path: '/photographer/manager',

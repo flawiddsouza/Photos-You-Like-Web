@@ -19,7 +19,7 @@
                 <h3 class="subtitle">
                     by
                     <span v-if="!edit">
-                        <router-link :to="'/photographer/' + photo.photographer.id + '/all'">
+                        <router-link :to="generatePhotographerRouterLink(photo.photographer.id)">
                             {{ photo.photographer.name }}
                         </router-link>
                         [<a :href="photo.photographer.links[0]">Web</a>]
@@ -69,7 +69,7 @@
                 </h3>
 
                 <h3 class="subtitle" v-if="!edit && photo.tags.length > 0">Tags:
-                    <router-link :to="'/tag/' + tag" v-for="tag in photo.tags">
+                    <router-link :to="generateTagRouterLink(tag)" v-for="tag in photo.tags">
                         <span class="tag is-link is-medium small-right-margin">
                             {{ tag }}
                         </span>
@@ -255,11 +255,28 @@ export default {
                     }
                 })
             })
+        },
+        generatePhotographerRouterLink(photographerId) {
+            if(this.scope == 'all') {
+                return '/photographer/' + photographerId + '/all'
+            } else if(this.scope == 'user') {
+                return '/photographer/' + photographerId + '/all/user'
+            }
+        },
+        generateTagRouterLink(tag) {
+            if(this.scope == 'all') {
+                return '/tag/' + tag
+            } else if(this.scope == 'user') {
+                return '/tag/' + tag + '/user'
+            }
         }
     },
     computed: {
         authenticatedUser() {
             return this.$store.state.authenticatedUser
+        },
+        scope() {
+            return this.$store.state.scope
         }
     }
 }

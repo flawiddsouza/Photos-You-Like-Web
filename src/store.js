@@ -11,7 +11,8 @@ export default new Vuex.Store({
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('authToken')
             }
-        }
+        },
+        scope: 'user'
     },
     mutations: {
         updateAuthenticatedUser: (state, authenticatedUser) => {
@@ -28,6 +29,12 @@ export default new Vuex.Store({
                     'Authorization': 'Bearer ' + localStorage.getItem('authToken')
                 }
             }
+        },
+        setScopeToUser: (state) => {
+            state.scope = 'user'
+        },
+        setScopeToAll: (state) => {
+            state.scope = 'all'
         }
     }
 })
