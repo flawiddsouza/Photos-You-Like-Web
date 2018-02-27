@@ -6,6 +6,11 @@
                     <router-link class="navbar-item" to="/">
                         <h1>Photos You Like</h1>
                     </router-link>
+                    <div class="navbar-burger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                 </div>
                 <div class="navbar-menu">
                     <div class="navbar-start">
@@ -26,6 +31,15 @@
 </template>
 
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    var navBurger = document.querySelector('.navbar-burger')
+    var navMenu = document.querySelector('.navbar-menu')
+    navBurger.addEventListener('click', () => {
+        navBurger.classList.toggle('is-active')
+        navMenu.classList.toggle('is-active')
+    })
+})
+
 export default {
     data() {
         return {
