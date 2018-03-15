@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(photographer, index) in photographers">
-                        <td>{{ index }}</td>
+                        <td>{{ index + 1 }}</td>
                         <td>
                             <router-link :to="generatePhotographerRouterLink(photographer.id)">
                                 {{ photographer.name }}
