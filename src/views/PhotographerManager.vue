@@ -8,7 +8,7 @@
             <table class="table is-bordered is-narrow center-table" id="artist-manager">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Link</th>
                         <th>Photo Count</th>
@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(photographer, index) in photographers">
-                        <td>{{ photographer.id }}</td>
+                        <td>{{ index }}</td>
                         <td>
                             <router-link :to="generatePhotographerRouterLink(photographer.id)">
                                 {{ photographer.name }}
