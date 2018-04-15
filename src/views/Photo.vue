@@ -86,8 +86,8 @@
 
                 <h3 class="subtitle" v-if="photo.metadata">Metadata: {{ photo.metadata }}</h3>
 
-                <p>Created at {{ photo.created_at }}</p>
-                <p>Updated at {{ photo.updated_at }}</p>
+                <p>Created at {{ photo.created_at | localizeDate }}</p>
+                <p>Updated at {{ photo.updated_at | localizeDate }}</p>
             </div>
         </div>
     </section>

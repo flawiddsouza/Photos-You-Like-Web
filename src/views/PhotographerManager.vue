@@ -30,8 +30,8 @@
                             <a v-for="link in photographer.links" :href="link" class="is-block">{{ link }}</a>
                         </td>
                         <td>{{ photographer.count }}</td>
-                        <td>{{ photographer.created_at }}</td>
-                        <td>{{ photographer.updated_at }}</td>
+                        <td>{{ photographer.created_at | localizeDate }}</td>
+                        <td>{{ photographer.updated_at | localizeDate }}</td>
                         <td v-if="authenticatedUser"><button class="button is-outlined" @click="editPhotographer(photographer, index, $event)">Edit</button></td>
                         <td v-if="authenticatedUser"><button class="button is-danger is-outlined" @click="deletePhotographer(photographer.id, index, $event)">Delete</button></td>
                     </tr>
