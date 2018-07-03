@@ -2,7 +2,7 @@
     <section class="section">
         <div class="container">
             <div v-if="photo" class="box">
-                <span v-if="authenticatedUser">
+                <span v-if="authenticatedUser && authenticatedUser.id === photo.addedByUserId">
                     <button class="button is-pulled-right is-outlined is-danger" @click="deletePhoto">Delete</button>
                     <button class="button is-pulled-right small-right-margin is-outlined" @click="edit = false" v-if="edit">Cancel</button>
                     <button class="button is-pulled-right small-right-margin is-outlined is-primary" v-bind:class="{ 'is-loading': loading }" @click="updatePhoto" v-if="edit">Update</button>
@@ -32,7 +32,7 @@
                 <div v-if="!edit">
                     <div class="image-holder" v-for="image in photo.images">
                         <img v-img:group :src="axios.defaults.baseURL + '/images/' + image">
-                        <button class="button is-small" @click="deleteImage(image)">
+                        <button class="button is-small" @click="deleteImage(image)" v-if="authenticatedUser && authenticatedUser.id === photo.addedByUserId">
                             <img src="../assets/trash.svg" width="17em" height="17em">
                         </button>
                     </div>
