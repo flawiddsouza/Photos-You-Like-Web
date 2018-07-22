@@ -257,10 +257,14 @@ export default {
             })
         },
         generatePhotographerRouterLink(photographerId) {
+            if(this.scope == 'user') {
+                return '/photographer/' + photographerId + '/all/user'
+            }
+            if(this.scope == 'others') {
+                return '/photographer/' + photographerId + '/all/others'
+            }
             if(this.scope == 'all') {
                 return '/photographer/' + photographerId + '/all'
-            } else if(this.scope == 'user') {
-                return '/photographer/' + photographerId + '/all/user'
             }
         },
         generateTagRouterLink(tag) {
