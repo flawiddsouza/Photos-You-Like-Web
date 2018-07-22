@@ -1,8 +1,8 @@
 <template>
     <section class="section">
         <div class="container">
-            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
-            <h1 class="title">All Photos from {{ photographer.name }}</h1>
+            <ScopeSwitcher></ScopeSwitcher>
+            <h1 class="title">Photos from {{ photographer.name }}</h1>
             <Gallery :photos="photos" />
         </div>
     </section>
@@ -33,15 +33,15 @@ export default {
                 if(this.scope === 'user') {
                     this.$router.push(`/photographer/${this.$route.params.id}/all/user`)
                 }
-                if(this.scope === 'others') {
-                    this.$router.push(`/photographer/${this.$route.params.id}/all/others`)
+                if(this.scope === 'all') {
+                    this.$router.push(`/photographer/${this.$route.params.id}/all`)
                 }
             }
         }
     },
     methods: {
         fetchPhotos() {
-            this.axios.get(`/photographer/${this.$route.params.id}/all`).then(response => {
+            this.axios.get(`/photographer/${this.$route.params.id}/all/others`, this.$store.state.axiosConfig).then(response => {
                 if(response.data.success) {
                     this.photos = response.data.photos
                     this.photographer = response.data.photographer
@@ -53,9 +53,6 @@ export default {
         }
     },
     computed: {
-        authenticatedUser() {
-            return this.$store.state.authenticatedUser
-        },
         scope() {
             return this.$store.state.scope
         }

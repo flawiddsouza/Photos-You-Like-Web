@@ -6,6 +6,7 @@ import PhotoOthers from './views/PhotoOthers.vue'
 import PhotoAll from './views/PhotoAll.vue'
 import Photo from './views/Photo.vue'
 import PhotographerAll from './views/PhotographerAll.vue'
+import PhotographerAllOthers from './views/PhotographerAllOthers.vue'
 import PhotographerAllUser from './views/PhotographerAllUser.vue'
 import Tag from './views/Tag.vue'
 import TagUser from './views/TagUser.vue'
@@ -62,6 +63,13 @@ export default new Router({
             component: PhotographerAllUser,
             meta: {
                 title: 'Your Photos'
+            }
+        },
+        {
+            path: '/photographer/:id/all/others',
+            component: PhotographerAllOthers,
+            meta: {
+                title: 'Others Photos'
             }
         },
         {

@@ -30,6 +30,9 @@ export default {
         '$route': 'fetchPhotos',
         scope: function(newScope, oldScope) {
             if(newScope !== oldScope) {
+                if(this.scope === 'others') {
+                    this.$router.push(`/photographer/${this.$route.params.id}/all/others`)
+                }
                 if(this.scope === 'all') {
                     this.$router.push(`/photographer/${this.$route.params.id}/all`)
                 }
