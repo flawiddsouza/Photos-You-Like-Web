@@ -1,12 +1,9 @@
 <template>
     <section class="section">
-        <div class="container" v-if="authenticatedUser">
-            <ScopeSwitcher></ScopeSwitcher>
-            <h1 class="title">Photos Added by You</h1>
+        <div class="container">
+            <ScopeSwitcher v-if="authenticatedUser"></ScopeSwitcher>
+            <h1 class="title">Others Photos</h1>
             <Gallery :photos="photos" />
-        </div>
-        <div class="container" v-else>
-            <h1 class="title">Log in to add and manage photos</h1>
         </div>
     </section>
 </template>
@@ -26,16 +23,14 @@ export default {
         }
     },
     created() {
-        this.$store.commit('setScopeToUser')
-        if(this.authenticatedUser) {
-            this.fetchPhotos()
-        }
+        this.$store.commit('setScopeToOthers')
+        this.fetchPhotos()
     },
     watch: {
         scope: function(newScope, oldScope) {
             if(newScope !== oldScope) {
-                if(newScope === 'others') {
-                    this.$router.push('/photo/others')
+                if(newScope === 'user') {
+                    this.$router.push('/')
                 }
                 if(newScope === 'all') {
                     this.$router.push('/photo/all')
@@ -45,7 +40,7 @@ export default {
     },
     methods: {
         fetchPhotos() {
-            this.axios.get('/photo/all/user', this.$store.state.axiosConfig).then(response => {
+            this.axios.get('/photo/others', this.$store.state.axiosConfig).then(response => {
                 if(response.data.success) {
                     this.photos = response.data.photos
                 } else {

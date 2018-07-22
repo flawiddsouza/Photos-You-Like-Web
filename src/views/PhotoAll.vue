@@ -32,6 +32,9 @@ export default {
                 if(newScope === 'user') {
                     this.$router.push('/')
                 }
+                if(newScope === 'others') {
+                    this.$router.push('/photo/others')
+                }
             }
         }
     },

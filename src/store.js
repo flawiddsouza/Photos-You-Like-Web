@@ -33,6 +33,9 @@ export default new Vuex.Store({
         setScopeToUser: (state) => {
             state.scope = 'user'
         },
+        setScopeToOthers: (state) => {
+            state.scope = 'others'
+        },
         setScopeToAll: (state) => {
             state.scope = 'all'
         }

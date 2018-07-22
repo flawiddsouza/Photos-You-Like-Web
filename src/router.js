@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import PhotoAdd from './views/PhotoAdd.vue'
+import PhotoOthers from './views/PhotoOthers.vue'
 import PhotoAll from './views/PhotoAll.vue'
 import Photo from './views/Photo.vue'
 import PhotographerAll from './views/PhotographerAll.vue'
@@ -29,6 +30,13 @@ export default new Router({
             path: '/auth/callback',
             component: {
                 template: '<div class="auth-component"></div>'
+            }
+        },
+        {
+            path: '/photo/others',
+            component: PhotoOthers,
+            meta: {
+                title: 'Others Photos'
             }
         },
         { // /photo/all needs to come before /photo/:id or it always matches to /photo/:id, making it inaccesible
